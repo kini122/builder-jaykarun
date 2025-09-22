@@ -79,7 +79,7 @@ const ChromaGrid: React.FC<ChromaGridProps> = ({ items, className = "", radius =
   };
 
   return (
-    <div ref={rootRef} onPointerMove={handleMove} onPointerLeave={handleLeave} className={`relative w-full h-full flex flex-wrap justify-center items-start gap-5 ${className}`} style={{ ["--r" as any]: `${radius}px`, ["--x" as any]: "50%", ["--y" as any]: "50%`" } as React.CSSProperties}>
+    <div ref={rootRef} onPointerMove={handleMove} onPointerLeave={handleLeave} className={`relative w-full h-full flex flex-wrap justify-center items-start gap-5 ${className}`} style={{ ["--r" as any]: `${radius}px`, ["--x" as any]: "50%", ["--y" as any]: "50%" } as React.CSSProperties}>
       {data.map((c, i) => (
         <article key={i} onMouseMove={handleCardMove} onClick={() => handleCardClick(c.url)} className="group relative flex flex-col w-[280px] md:w-[300px] rounded-2xl overflow-hidden border-2 border-transparent transition-colors duration-300 cursor-pointer" style={{ ["--card-border" as any]: c.borderColor || "transparent", background: c.gradient, ["--spotlight-color" as any]: "rgba(255,255,255,0.3)" } as React.CSSProperties}>
           <div className="absolute inset-0 pointer-events-none transition-opacity duration-500 z-20 opacity-0 group-hover:opacity-100" style={{ background: "radial-gradient(circle at var(--mouse-x) var(--mouse-y), var(--spotlight-color), transparent 70%)" }} />
