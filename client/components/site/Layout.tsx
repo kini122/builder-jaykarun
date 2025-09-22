@@ -30,9 +30,15 @@ export const Footer: React.FC = () => (
       <div>© {new Date().getFullYear()} JayKarun Art</div>
       <div className="text-center">Follow: Instagram · Facebook</div>
       <nav className="text-right space-x-4">
-        <a href="/about" className="hover:underline">About</a>
-        <a href="/gallery" className="hover:underline">Gallery</a>
-        <a href="/contact" className="hover:underline">Contact</a>
+        <a href="/about" className="hover:underline">
+          About
+        </a>
+        <a href="/gallery" className="hover:underline">
+          Gallery
+        </a>
+        <a href="/contact" className="hover:underline">
+          Contact
+        </a>
       </nav>
     </div>
   </footer>

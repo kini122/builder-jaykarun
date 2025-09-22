@@ -103,8 +103,22 @@ export default function TiltedCard({
         </div>
       )}
 
-      <motion.div className="relative [transform-style:preserve-3d]" style={{ width: imageWidth, height: imageHeight, rotateX, rotateY, scale }}>
-        <motion.img src={imageSrc} alt={altText} className="absolute top-0 left-0 object-cover rounded-xl shadow-lg will-change-transform [transform:translateZ(0)]" style={{ width: imageWidth, height: imageHeight }} />
+      <motion.div
+        className="relative [transform-style:preserve-3d]"
+        style={{
+          width: imageWidth,
+          height: imageHeight,
+          rotateX,
+          rotateY,
+          scale,
+        }}
+      >
+        <motion.img
+          src={imageSrc}
+          alt={altText}
+          className="absolute top-0 left-0 object-cover rounded-xl shadow-lg will-change-transform [transform:translateZ(0)]"
+          style={{ width: imageWidth, height: imageHeight }}
+        />
 
         {displayOverlayContent && overlayContent && (
           <motion.div className="absolute top-0 left-0 z-[2] will-change-transform [transform:translateZ(30px)]">
@@ -114,7 +128,10 @@ export default function TiltedCard({
       </motion.div>
 
       {showTooltip && (
-        <motion.figcaption className="pointer-events-none absolute left-0 top-0 rounded bg-white/90 px-2 py-1 text-[10px] text-[#2d2d2d] opacity-0 z-[3] hidden sm:block shadow" style={{ x, y, opacity, rotate: rotateFigcaption }}>
+        <motion.figcaption
+          className="pointer-events-none absolute left-0 top-0 rounded bg-white/90 px-2 py-1 text-[10px] text-[#2d2d2d] opacity-0 z-[3] hidden sm:block shadow"
+          style={{ x, y, opacity, rotate: rotateFigcaption }}
+        >
           {captionText}
         </motion.figcaption>
       )}

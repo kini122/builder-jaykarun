@@ -83,7 +83,9 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
 
       let preLayers: HTMLElement[] = [];
       if (preContainer) {
-        preLayers = Array.from(preContainer.querySelectorAll(".sm-prelayer")) as HTMLElement[];
+        preLayers = Array.from(
+          preContainer.querySelectorAll(".sm-prelayer"),
+        ) as HTMLElement[];
       }
       preLayerElsRef.current = preLayers;
 
@@ -96,7 +98,8 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
 
       gsap.set(textInner, { yPercent: 0 });
 
-      if (toggleBtnRef.current) gsap.set(toggleBtnRef.current, { color: menuButtonColor });
+      if (toggleBtnRef.current)
+        gsap.set(toggleBtnRef.current, { color: menuButtonColor });
     });
     return () => ctx.revert();
   }, [menuButtonColor, position]);
@@ -113,25 +116,40 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
     }
     itemEntranceTweenRef.current?.kill();
 
-    const itemEls = Array.from(panel.querySelectorAll(".sm-panel-itemLabel")) as HTMLElement[];
-    const numberEls = Array.from(panel.querySelectorAll(
-      ".sm-panel-list[data-numbering] .sm-panel-item"
-    )) as HTMLElement[];
-    const socialTitle = panel.querySelector(".sm-socials-title") as HTMLElement | null;
-    const socialLinks = Array.from(panel.querySelectorAll(".sm-socials-link")) as HTMLElement[];
+    const itemEls = Array.from(
+      panel.querySelectorAll(".sm-panel-itemLabel"),
+    ) as HTMLElement[];
+    const numberEls = Array.from(
+      panel.querySelectorAll(".sm-panel-list[data-numbering] .sm-panel-item"),
+    ) as HTMLElement[];
+    const socialTitle = panel.querySelector(
+      ".sm-socials-title",
+    ) as HTMLElement | null;
+    const socialLinks = Array.from(
+      panel.querySelectorAll(".sm-socials-link"),
+    ) as HTMLElement[];
 
-    const layerStates = layers.map((el) => ({ el, start: Number(gsap.getProperty(el, "xPercent")) }));
+    const layerStates = layers.map((el) => ({
+      el,
+      start: Number(gsap.getProperty(el, "xPercent")),
+    }));
     const panelStart = Number(gsap.getProperty(panel, "xPercent"));
 
     if (itemEls.length) gsap.set(itemEls, { yPercent: 140, rotate: 10 });
-    if (numberEls.length) gsap.set(numberEls, { ["--sm-num-opacity" as any]: 0 });
+    if (numberEls.length)
+      gsap.set(numberEls, { ["--sm-num-opacity" as any]: 0 });
     if (socialTitle) gsap.set(socialTitle, { opacity: 0 });
     if (socialLinks.length) gsap.set(socialLinks, { y: 25, opacity: 0 });
 
     const tl = gsap.timeline({ paused: true });
 
     layerStates.forEach((ls, i) => {
-      tl.fromTo(ls.el, { xPercent: ls.start }, { xPercent: 0, duration: 0.5, ease: "power4.out" }, i * 0.07);
+      tl.fromTo(
+        ls.el,
+        { xPercent: ls.start },
+        { xPercent: 0, duration: 0.5, ease: "power4.out" },
+        i * 0.07,
+      );
     });
 
     const lastTime = layerStates.length ? (layerStates.length - 1) * 0.07 : 0;
@@ -142,7 +160,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
       panel,
       { xPercent: panelStart },
       { xPercent: 0, duration: panelDuration, ease: "power4.out" },
-      panelInsertTime
+      panelInsertTime,
     );
 
     if (itemEls.length) {
@@ -151,15 +169,26 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
 
       tl.to(
         itemEls,
-        { yPercent: 0, rotate: 0, duration: 1, ease: "power4.out", stagger: { each: 0.1, from: "start" } },
-        itemsStart
+        {
+          yPercent: 0,
+          rotate: 0,
+          duration: 1,
+          ease: "power4.out",
+          stagger: { each: 0.1, from: "start" },
+        },
+        itemsStart,
       );
 
       if (numberEls.length) {
         tl.to(
           numberEls,
-          { duration: 0.6, ease: "power2.out", ["--sm-num-opacity" as any]: 1, stagger: { each: 0.08, from: "start" } },
-          itemsStart + 0.1
+          {
+            duration: 0.6,
+            ease: "power2.out",
+            ["--sm-num-opacity" as any]: 1,
+            stagger: { each: 0.08, from: "start" },
+          },
+          itemsStart + 0.1,
         );
       }
     }
@@ -167,7 +196,12 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
     if (socialTitle || socialLinks.length) {
       const socialsStart = panelInsertTime + panelDuration * 0.4;
 
-      if (socialTitle) tl.to(socialTitle, { opacity: 1, duration: 0.5, ease: "power2.out" }, socialsStart);
+      if (socialTitle)
+        tl.to(
+          socialTitle,
+          { opacity: 1, duration: 0.5, ease: "power2.out" },
+          socialsStart,
+        );
       if (socialLinks.length) {
         tl.to(
           socialLinks,
@@ -181,7 +215,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
               gsap.set(socialLinks, { clearProps: "opacity" });
             },
           },
-          socialsStart + 0.04
+          socialsStart + 0.04,
         );
       }
     }
@@ -224,16 +258,25 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
       ease: "power3.in",
       overwrite: "auto",
       onComplete: () => {
-        const itemEls = Array.from(panel.querySelectorAll(".sm-panel-itemLabel")) as HTMLElement[];
+        const itemEls = Array.from(
+          panel.querySelectorAll(".sm-panel-itemLabel"),
+        ) as HTMLElement[];
         if (itemEls.length) gsap.set(itemEls, { yPercent: 140, rotate: 10 });
 
-        const numberEls = Array.from(panel.querySelectorAll(
-          ".sm-panel-list[data-numbering] .sm-panel-item"
-        )) as HTMLElement[];
-        if (numberEls.length) gsap.set(numberEls, { ["--sm-num-opacity" as any]: 0 });
+        const numberEls = Array.from(
+          panel.querySelectorAll(
+            ".sm-panel-list[data-numbering] .sm-panel-item",
+          ),
+        ) as HTMLElement[];
+        if (numberEls.length)
+          gsap.set(numberEls, { ["--sm-num-opacity" as any]: 0 });
 
-        const socialTitle = panel.querySelector(".sm-socials-title") as HTMLElement | null;
-        const socialLinks = Array.from(panel.querySelectorAll(".sm-socials-link")) as HTMLElement[];
+        const socialTitle = panel.querySelector(
+          ".sm-socials-title",
+        ) as HTMLElement | null;
+        const socialLinks = Array.from(
+          panel.querySelectorAll(".sm-socials-link"),
+        ) as HTMLElement[];
         if (socialTitle) gsap.set(socialTitle, { opacity: 0 });
         if (socialLinks.length) gsap.set(socialLinks, { y: 25, opacity: 0 });
 
@@ -272,18 +315,25 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
       colorTweenRef.current?.kill();
       if (changeMenuColorOnOpen) {
         const targetColor = opening ? openMenuButtonColor : menuButtonColor;
-        colorTweenRef.current = gsap.to(btn, { color: targetColor, delay: 0.18, duration: 0.3, ease: "power2.out" });
+        colorTweenRef.current = gsap.to(btn, {
+          color: targetColor,
+          delay: 0.18,
+          duration: 0.3,
+          ease: "power2.out",
+        });
       } else {
         gsap.set(btn, { color: menuButtonColor });
       }
     },
-    [openMenuButtonColor, menuButtonColor, changeMenuColorOnOpen]
+    [openMenuButtonColor, menuButtonColor, changeMenuColorOnOpen],
   );
 
   React.useEffect(() => {
     if (toggleBtnRef.current) {
       if (changeMenuColorOnOpen) {
-        const targetColor = openRef.current ? openMenuButtonColor : menuButtonColor;
+        const targetColor = openRef.current
+          ? openMenuButtonColor
+          : menuButtonColor;
         gsap.set(toggleBtnRef.current, { color: targetColor });
       } else {
         gsap.set(toggleBtnRef.current, { color: menuButtonColor });
@@ -339,13 +389,28 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
     animateIcon(target);
     animateColor(target);
     animateText(target);
-  }, [playOpen, playClose, animateIcon, animateColor, animateText, onMenuOpen, onMenuClose]);
+  }, [
+    playOpen,
+    playClose,
+    animateIcon,
+    animateColor,
+    animateText,
+    onMenuOpen,
+    onMenuClose,
+  ]);
 
   return (
     <div className="sm-scope w-full h-full">
       <div
-        className={(className ? className + " " : "") + "staggered-menu-wrapper relative w-full h-full z-40"}
-        style={accentColor ? ({ ["--sm-accent" as any]: accentColor } as React.CSSProperties) : undefined}
+        className={
+          (className ? className + " " : "") +
+          "staggered-menu-wrapper relative w-full h-full z-40"
+        }
+        style={
+          accentColor
+            ? ({ ["--sm-accent" as any]: accentColor } as React.CSSProperties)
+            : undefined
+        }
         data-position={position}
         data-open={open || undefined}
       >
@@ -355,21 +420,41 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
           aria-hidden="true"
         >
           {(() => {
-            const raw = colors && colors.length ? colors.slice(0, 4) : ["#1e1e22", "#35353c"];
+            const raw =
+              colors && colors.length
+                ? colors.slice(0, 4)
+                : ["#1e1e22", "#35353c"];
             let arr = [...raw];
             if (arr.length >= 3) {
               const mid = Math.floor(arr.length / 2);
               arr.splice(mid, 1);
             }
             return arr.map((c, i) => (
-              <div key={i} className="sm-prelayer absolute top-0 right-0 h-full w-full translate-x-0" style={{ background: c }} />
+              <div
+                key={i}
+                className="sm-prelayer absolute top-0 right-0 h-full w-full translate-x-0"
+                style={{ background: c }}
+              />
             ));
           })()}
         </div>
 
-        <header className="staggered-menu-header absolute top-0 left-0 w-full flex items-center justify-between p-[1.25rem] bg-transparent pointer-events-none z-20" aria-label="Main navigation header">
-          <div className="sm-logo flex items-center select-none pointer-events-auto" aria-label="Logo">
-            <img src={logoUrl} alt="JayKarun Art" className="sm-logo-img block h-8 w-auto object-contain" draggable={false} width={120} height={24} />
+        <header
+          className="staggered-menu-header absolute top-0 left-0 w-full flex items-center justify-between p-[1.25rem] bg-transparent pointer-events-none z-20"
+          aria-label="Main navigation header"
+        >
+          <div
+            className="sm-logo flex items-center select-none pointer-events-auto"
+            aria-label="Logo"
+          >
+            <img
+              src={logoUrl}
+              alt="JayKarun Art"
+              className="sm-logo-img block h-8 w-auto object-contain"
+              draggable={false}
+              width={120}
+              height={24}
+            />
           </div>
 
           <button
@@ -381,50 +466,108 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
             onClick={toggleMenu}
             type="button"
           >
-            <span ref={textWrapRef} className="sm-toggle-textWrap relative inline-block h-[1em] overflow-hidden whitespace-nowrap w-[var(--sm-toggle-width,auto)] min-w-[var(--sm-toggle-width,auto)]" aria-hidden="true">
-              <span ref={textInnerRef} className="sm-toggle-textInner flex flex-col leading-none">
+            <span
+              ref={textWrapRef}
+              className="sm-toggle-textWrap relative inline-block h-[1em] overflow-hidden whitespace-nowrap w-[var(--sm-toggle-width,auto)] min-w-[var(--sm-toggle-width,auto)]"
+              aria-hidden="true"
+            >
+              <span
+                ref={textInnerRef}
+                className="sm-toggle-textInner flex flex-col leading-none"
+              >
                 {textLines.map((l, i) => (
-                  <span className="sm-toggle-line block h-[1em] leading-none" key={i}>
+                  <span
+                    className="sm-toggle-line block h-[1em] leading-none"
+                    key={i}
+                  >
                     {l}
                   </span>
                 ))}
               </span>
             </span>
 
-            <span ref={iconRef} className="sm-icon relative w-[14px] h-[14px] shrink-0 inline-flex items-center justify-center [will-change:transform]" aria-hidden="true">
-              <span ref={plusHRef} className="sm-icon-line absolute left-1/2 top-1/2 w-full h-[2px] bg-current rounded-[2px] -translate-x-1/2 -translate-y-1/2 [will-change:transform]" />
-              <span ref={plusVRef} className="sm-icon-line sm-icon-line-v absolute left-1/2 top-1/2 w-full h-[2px] bg-current rounded-[2px] -translate-x-1/2 -translate-y-1/2 [will-change:transform]" />
+            <span
+              ref={iconRef}
+              className="sm-icon relative w-[14px] h-[14px] shrink-0 inline-flex items-center justify-center [will-change:transform]"
+              aria-hidden="true"
+            >
+              <span
+                ref={plusHRef}
+                className="sm-icon-line absolute left-1/2 top-1/2 w-full h-[2px] bg-current rounded-[2px] -translate-x-1/2 -translate-y-1/2 [will-change:transform]"
+              />
+              <span
+                ref={plusVRef}
+                className="sm-icon-line sm-icon-line-v absolute left-1/2 top-1/2 w-full h-[2px] bg-current rounded-[2px] -translate-x-1/2 -translate-y-1/2 [will-change:transform]"
+              />
             </span>
           </button>
         </header>
 
-        <aside id="staggered-menu-panel" ref={panelRef} className="staggered-menu-panel absolute top-0 right-0 h-full bg-white flex flex-col p-[6em_2em_2em_2em] overflow-y-auto z-10 backdrop-blur-[12px]" style={{ WebkitBackdropFilter: "blur(12px)" }} aria-hidden={!open}>
+        <aside
+          id="staggered-menu-panel"
+          ref={panelRef}
+          className="staggered-menu-panel absolute top-0 right-0 h-full bg-white flex flex-col p-[6em_2em_2em_2em] overflow-y-auto z-10 backdrop-blur-[12px]"
+          style={{ WebkitBackdropFilter: "blur(12px)" }}
+          aria-hidden={!open}
+        >
           <div className="sm-panel-inner flex-1 flex flex-col gap-5">
-            <ul className="sm-panel-list list-none m-0 p-0 flex flex-col gap-2" role="list" data-numbering={displayItemNumbering || undefined}>
+            <ul
+              className="sm-panel-list list-none m-0 p-0 flex flex-col gap-2"
+              role="list"
+              data-numbering={displayItemNumbering || undefined}
+            >
               {items && items.length ? (
                 items.map((it, idx) => (
-                  <li className="sm-panel-itemWrap relative overflow-hidden leading-none" key={it.label + idx}>
-                    <a className="sm-panel-item relative text-black font-semibold text-[3.25rem] md:text-[4rem] cursor-pointer leading-none tracking-[-2px] uppercase transition-[background,color] duration-150 ease-linear inline-block no-underline pr-[1.4em]" href={it.link} aria-label={it.ariaLabel} data-index={idx + 1}>
-                      <span className="sm-panel-itemLabel inline-block [transform-origin:50%_100%] will-change-transform">{it.label}</span>
+                  <li
+                    className="sm-panel-itemWrap relative overflow-hidden leading-none"
+                    key={it.label + idx}
+                  >
+                    <a
+                      className="sm-panel-item relative text-black font-semibold text-[3.25rem] md:text-[4rem] cursor-pointer leading-none tracking-[-2px] uppercase transition-[background,color] duration-150 ease-linear inline-block no-underline pr-[1.4em]"
+                      href={it.link}
+                      aria-label={it.ariaLabel}
+                      data-index={idx + 1}
+                    >
+                      <span className="sm-panel-itemLabel inline-block [transform-origin:50%_100%] will-change-transform">
+                        {it.label}
+                      </span>
                     </a>
                   </li>
                 ))
               ) : (
-                <li className="sm-panel-itemWrap relative overflow-hidden leading-none" aria-hidden="true">
+                <li
+                  className="sm-panel-itemWrap relative overflow-hidden leading-none"
+                  aria-hidden="true"
+                >
                   <span className="sm-panel-item relative text-black font-semibold text-[4rem] cursor-pointer leading-none tracking-[-2px] uppercase transition-[background,color] duration-150 ease-linear inline-block no-underline pr-[1.4em]">
-                    <span className="sm-panel-itemLabel inline-block [transform-origin:50%_100%] will-change-transform">No items</span>
+                    <span className="sm-panel-itemLabel inline-block [transform-origin:50%_100%] will-change-transform">
+                      No items
+                    </span>
                   </span>
                 </li>
               )}
             </ul>
 
             {displaySocials && socialItems && socialItems.length > 0 && (
-              <div className="sm-socials mt-auto pt-8 flex flex-col gap-3" aria-label="Social links">
-                <h3 className="sm-socials-title m-0 text-base font-medium [color:var(--sm-accent,#7A8B7A)]">Socials</h3>
-                <ul className="sm-socials-list list-none m-0 p-0 flex flex-row items-center gap-4 flex-wrap" role="list">
+              <div
+                className="sm-socials mt-auto pt-8 flex flex-col gap-3"
+                aria-label="Social links"
+              >
+                <h3 className="sm-socials-title m-0 text-base font-medium [color:var(--sm-accent,#7A8B7A)]">
+                  Socials
+                </h3>
+                <ul
+                  className="sm-socials-list list-none m-0 p-0 flex flex-row items-center gap-4 flex-wrap"
+                  role="list"
+                >
                   {socialItems.map((s, i) => (
                     <li key={s.label + i} className="sm-socials-item">
-                      <a href={s.link} target="_blank" rel="noopener noreferrer" className="sm-socials-link text-[1.05rem] font-medium text-[#111] no-underline relative inline-block py-[2px] transition-[color,opacity] duration-300 ease-linear">
+                      <a
+                        href={s.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="sm-socials-link text-[1.05rem] font-medium text-[#111] no-underline relative inline-block py-[2px] transition-[color,opacity] duration-300 ease-linear"
+                      >
                         {s.label}
                       </a>
                     </li>
