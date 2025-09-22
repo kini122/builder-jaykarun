@@ -75,7 +75,7 @@ export default function Index() {
           <h3 className="text-2xl font-bold mb-8">Explore by Category</h3>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {categories.map((c, idx) => (
-              <a key={c.key} href={`/gallery?cat=${c.key}`} className={`group relative rounded-2xl overflow-hidden shadow-sm border bg-${idx % 2 ? "secondary/40" : "white"}`}>
+              <a key={c.key} href={`/gallery?cat=${c.key}`} className={`group relative rounded-2xl overflow-hidden shadow-sm border ${idx % 2 ? "bg-secondary/40" : "bg-white"}`}>
                 <img src={c.items[0]?.image} alt={c.name} className="h-56 w-full object-cover" />
                 <div className="p-4">
                   <div className="flex items-center justify-between">
