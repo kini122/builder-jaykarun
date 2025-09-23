@@ -43,7 +43,7 @@ const SmoothScrollHeroBackground: React.FC<SmoothScrollHeroBackgroundProps> = ({
       <div
         className="absolute inset-0 md:hidden"
         style={{
-          backgroundImage: `url(${mobileImage})`,
+          backgroundImage: `url(${desktopImage})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
@@ -73,7 +73,7 @@ const SmoothScrollHeroBackground: React.FC<SmoothScrollHeroBackgroundProps> = ({
         <motion.div
           className="absolute inset-0 md:hidden"
           style={{
-            backgroundImage: `url(${mobileImage})`,
+            backgroundImage: `url(${desktopImage})`,
             backgroundSize,
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
