@@ -30,7 +30,7 @@ export default function Index() {
       <section className="relative">
         {illustration?.image && (
           <SmoothScrollHero
-            scrollHeight={1700}
+            scrollHeight={1900}
             desktopImage={illustration.image}
             mobileImage={illustration.image}
             initialClipPercentage={25}
