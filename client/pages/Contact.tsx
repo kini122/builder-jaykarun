@@ -3,7 +3,7 @@ import Layout from "@/components/site/Layout";
 export default function Contact() {
   return (
     <Layout>
-      <section className="relative bg-[url('https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-center">
+      <section className="relative bg-[url('/assets/contact-bg.jpg')] bg-cover bg-center">
         <div className="bg-black/40">
           <div className="container mx-auto px-6 py-20 text-white">
             <h1 className="text-4xl font-extrabold">Get in Touch</h1>
