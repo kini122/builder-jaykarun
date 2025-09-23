@@ -34,7 +34,7 @@ export default function Index() {
             desktopImage={illustration.image}
             mobileImage={illustration.image}
             initialClipPercentage={25}
-            finalClipPercentage={75}
+            finalClipPercentage={95}
           />
         )}
         <div className="absolute inset-0 grid place-items-center pointer-events-none">
