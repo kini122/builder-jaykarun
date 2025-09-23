@@ -48,6 +48,7 @@ const SmoothScrollHeroBackground: React.FC<SmoothScrollHeroBackgroundProps> = ({
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           filter: "blur(40px)",
+          transform: "scale(1.1)",
         }}
       />
       {/* Blurred background layer - Desktop */}
@@ -59,6 +60,7 @@ const SmoothScrollHeroBackground: React.FC<SmoothScrollHeroBackgroundProps> = ({
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           filter: "blur(40px)",
+          transform: "scale(1.1)",
         }}
       />
       
