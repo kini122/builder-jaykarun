@@ -71,7 +71,7 @@ const SmoothScrollHero: React.FC<SmoothScrollHeroProps> = ({
   scrollHeight = 1500,
   desktopImage,
   mobileImage,
-  initialClipPercentage = 55,
+  initialClipPercentage = 80,
   finalClipPercentage = 75,
   className,
 }) => {
