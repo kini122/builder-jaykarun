@@ -75,7 +75,7 @@ export default function Index() {
             </div>
             <div className="hidden md:flex justify-center">
               <TiltedCard
-                imageSrc="https://cdn.builder.io/api/v1/image/assets%2F31e04bb0599342f8b50394d1e8bce657%2F7b236bb9aa2a47338ce2761897ff554c?format=webp&width=1200"
+                imageSrc="/assets/artworks/nl-paint1.webp"
                 captionText="Featured work"
                 containerHeight="480px"
                 imageHeight="480px"
@@ -91,7 +91,7 @@ export default function Index() {
       <section id="about" className="bg-secondary/60">
         <div className="container mx-auto px-6 py-14 grid md:grid-cols-2 gap-10 items-center">
           <img
-            src="https://cdn.builder.io/api/v1/image/assets%2F31e04bb0599342f8b50394d1e8bce657%2F2850fff8822d4e1bb097852dba4570cd"
+            src="/assets/portraits/jaykarun.webp"
             alt="JayKarun portrait"
             className="rounded-2xl shadow-md object-cover w-full h-[380px]"
           />
