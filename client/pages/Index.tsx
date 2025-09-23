@@ -85,7 +85,7 @@ export default function Index() {
       <section id="about" className="bg-secondary/60">
         <div className="container mx-auto px-6 py-14 grid md:grid-cols-2 gap-10 items-center">
           <img
-            src="https://cdn.builder.io/api/v1/image/assets%2F31e04bb0599342f8b50394d1e8bce657%2Fb9d916ba8172432a8251389427881d23?format=webp&width=1200"
+            src="https://cdn.builder.io/api/v1/image/assets%2F31e04bb0599342f8b50394d1e8bce657%2F2850fff8822d4e1bb097852dba4570cd"
             alt="JayKarun portrait"
             className="rounded-2xl shadow-md object-cover w-full h-[380px]"
           />
