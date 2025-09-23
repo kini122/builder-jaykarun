@@ -28,7 +28,11 @@ export const Card = React.memo(
           hovered !== null && hovered !== index && "blur-sm scale-[0.98]",
         )}
       >
-        <img src={card.src} alt={card.title} className="object-cover absolute inset-0 w-full h-full" />
+        <img
+          src={card.src}
+          alt={card.title}
+          className="object-cover absolute inset-0 w-full h-full"
+        />
         <div
           className={cn(
             "absolute inset-0 bg-black/50 flex items-end py-8 px-4 transition-opacity duration-[250ms]",
@@ -42,7 +46,9 @@ export const Card = React.memo(
       </div>
     );
     return card.href ? (
-      <a href={card.href} aria-label={card.title} className="block">{inner}</a>
+      <a href={card.href} aria-label={card.title} className="block">
+        {inner}
+      </a>
     ) : (
       inner
     );
@@ -57,7 +63,13 @@ export function FocusCards({ cards }: { cards: FocusCardItem[] }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 max-w-5xl mx-auto md:px-8 w-full">
       {cards.map((card, index) => (
-        <Card key={card.title + index} card={card} index={index} hovered={hovered} setHovered={setHovered} />
+        <Card
+          key={card.title + index}
+          card={card}
+          index={index}
+          hovered={hovered}
+          setHovered={setHovered}
+        />
       ))}
     </div>
   );

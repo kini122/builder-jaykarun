@@ -10,7 +10,10 @@ import {
 
 export default function Gallery() {
   const [open, setOpen] = React.useState(false);
-  const [activeImg, setActiveImg] = React.useState<{ src: string; title: string } | null>(null);
+  const [activeImg, setActiveImg] = React.useState<{
+    src: string;
+    title: string;
+  } | null>(null);
   const [visible, setVisible] = React.useState<Record<string, boolean>>({});
   const sectionRefs = React.useRef<Record<string, HTMLElement | null>>({});
 
@@ -56,11 +59,17 @@ export default function Gallery() {
                     }}
                     aria-label={`Open ${w.title}`}
                   >
-                    <img src={w.image} alt={w.title} className="w-full h-64 object-cover" />
+                    <img
+                      src={w.image}
+                      alt={w.title}
+                      className="w-full h-64 object-cover"
+                    />
                     <div className="p-4">
                       <div className="font-semibold">{w.title}</div>
                       {w.description && (
-                        <p className="text-sm text-foreground/70 mt-1">{w.description}</p>
+                        <p className="text-sm text-foreground/70 mt-1">
+                          {w.description}
+                        </p>
                       )}
                     </div>
                   </button>
@@ -76,7 +85,9 @@ export default function Gallery() {
           <DialogHeader>
             <DialogTitle>{activeImg?.title}</DialogTitle>
           </DialogHeader>
-          {activeImg && <ZoomableImage src={activeImg.src} alt={activeImg.title} />}
+          {activeImg && (
+            <ZoomableImage src={activeImg.src} alt={activeImg.title} />
+          )}
         </DialogContent>
       </Dialog>
     </Layout>
@@ -89,7 +100,8 @@ function ZoomableImage({ src, alt }: { src: string; alt: string }) {
   const dragging = React.useRef(false);
   const last = React.useRef({ x: 0, y: 0 });
 
-  const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
+  const clamp = (v: number, min: number, max: number) =>
+    Math.min(max, Math.max(min, v));
 
   const onWheel = (e: React.WheelEvent) => {
     e.preventDefault();

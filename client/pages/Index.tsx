@@ -19,7 +19,11 @@ export default function Index() {
     const shuffled = [...allWorks].sort(() => Math.random() - 0.5);
     // keep rows filled for 3-column layout
     const pick = shuffled.slice(0, 6);
-    return pick.map<FocusCardItem>((w) => ({ title: w.title, src: w.image, href: "/gallery#collections" }));
+    return pick.map<FocusCardItem>((w) => ({
+      title: w.title,
+      src: w.image,
+      href: "/gallery#collections",
+    }));
   }, []);
 
   const [bioOpen, setBioOpen] = useState(false);
@@ -31,7 +35,9 @@ export default function Index() {
         {illustration?.image && (
           <SmoothScrollHero
             scrollHeight={1900}
-            desktopImage={"https://cdn.builder.io/api/v1/image/assets%2F31e04bb0599342f8b50394d1e8bce657%2F02e02c01aa6d4bf880524344f2bb0c98"}
+            desktopImage={
+              "https://cdn.builder.io/api/v1/image/assets%2F31e04bb0599342f8b50394d1e8bce657%2F02e02c01aa6d4bf880524344f2bb0c98"
+            }
             mobileImage={illustration.image}
             initialClipPercentage={25}
             finalClipPercentage={75}
@@ -49,8 +55,8 @@ export default function Index() {
               <p className="mt-4 text-lg text-foreground/80">JayKarun Art</p>
               <p className="mt-3 text-foreground/80 max-w-prose">
                 Discover evocative works spanning ecological themes, figurative
-                explorations and nature inspired abstracts. Each piece blends bold
-                color with deep cultural roots.
+                explorations and nature inspired abstracts. Each piece blends
+                bold color with deep cultural roots.
               </p>
               <div className="mt-6 flex gap-3">
                 <a
@@ -93,7 +99,9 @@ export default function Index() {
             <h2 className="text-3xl font-bold">About the Artist</h2>
             <p className="mt-4 text-foreground/80">JAY KARUN</p>
             <p className="mt-2 text-foreground/80">
-              The painterly instinct in Jay showed up early in life. No wonder, after schooling, he didn’t have to think twice about his future calling���to be a painter with a difference.
+              The painterly instinct in Jay showed up early in life. No wonder,
+              after schooling, he didn’t have to think twice about his future
+              calling���to be a painter with a difference.
             </p>
             <Dialog open={bioOpen} onOpenChange={setBioOpen}>
               <DialogTrigger asChild>
@@ -106,15 +114,34 @@ export default function Index() {
                   <DialogTitle>Biography</DialogTitle>
                 </DialogHeader>
                 <div className="prose max-w-none whitespace-pre-line text-sm md:text-base">
-JAY KARUN
-
-The painterly instinct in Jay showed up early in life. No wonder, after schooling, he didn’t have to think twice about his future calling-to be a painter with a difference. For Jay Karun, joining Fine Arts College, Thrippunithura was a logical conclusion of this calling. Thrippunithura, the land of temples, arts, and royal heritage, nourished the painter in him well. After graduating in Fine Arts creditably; he took to painting avidly and with passion. Be it commercial art or art for its own sake, Jay invests a rare passion into his work. He realizes that businesses require a different kind of art, than, let’s say, a painting. But as an advertising professional, he realizes, that both art forms have certain basic things in common like specific objectives and target audiences.
-
-Jay’s fascination to delve deep down into the imagery that revolves around his mind and his desire to lend expression to it, led him to explore the world of paintings. What developed was more than an expression, but an impressionistic ensemble of energetic colours and bold strokes. Each of his paintings is an exploration, deep into the psyche of individual and collective consciousness.
-
-Little surprise, some of his paintings is mystical renditions of complex human predicament. Humanity, besieged by multiple inner and external pulls, is his favourite topic. Forming the base of his thought is the knowledge, which considers everything that shares space as one single entity.
-
-Therefore, his paintings seek to connect with humanity at a deeper, emotional and psychic level, just as his advertising does.
+                  JAY KARUN The painterly instinct in Jay showed up early in
+                  life. No wonder, after schooling, he didn’t have to think
+                  twice about his future calling-to be a painter with a
+                  difference. For Jay Karun, joining Fine Arts College,
+                  Thrippunithura was a logical conclusion of this calling.
+                  Thrippunithura, the land of temples, arts, and royal heritage,
+                  nourished the painter in him well. After graduating in Fine
+                  Arts creditably; he took to painting avidly and with passion.
+                  Be it commercial art or art for its own sake, Jay invests a
+                  rare passion into his work. He realizes that businesses
+                  require a different kind of art, than, let’s say, a painting.
+                  But as an advertising professional, he realizes, that both art
+                  forms have certain basic things in common like specific
+                  objectives and target audiences. Jay’s fascination to delve
+                  deep down into the imagery that revolves around his mind and
+                  his desire to lend expression to it, led him to explore the
+                  world of paintings. What developed was more than an
+                  expression, but an impressionistic ensemble of energetic
+                  colours and bold strokes. Each of his paintings is an
+                  exploration, deep into the psyche of individual and collective
+                  consciousness. Little surprise, some of his paintings is
+                  mystical renditions of complex human predicament. Humanity,
+                  besieged by multiple inner and external pulls, is his
+                  favourite topic. Forming the base of his thought is the
+                  knowledge, which considers everything that shares space as one
+                  single entity. Therefore, his paintings seek to connect with
+                  humanity at a deeper, emotional and psychic level, just as his
+                  advertising does.
                 </div>
               </DialogContent>
             </Dialog>
@@ -126,7 +153,10 @@ Therefore, his paintings seek to connect with humanity at a deeper, emotional an
       <section className="container mx-auto px-6 py-16">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-2xl font-bold">Selected Works</h3>
-          <a href="/gallery" className="text-primary underline-offset-4 hover:underline">
+          <a
+            href="/gallery"
+            className="text-primary underline-offset-4 hover:underline"
+          >
             View all
           </a>
         </div>
@@ -152,11 +182,15 @@ Therefore, his paintings seek to connect with humanity at a deeper, emotional an
                 <div className="p-4">
                   <div className="flex items-center justify-between">
                     <h4 className="font-semibold">{c.name}</h4>
-                    <span className="text-sm text-foreground/60">{c.items.length} pieces</span>
+                    <span className="text-sm text-foreground/60">
+                      {c.items.length} pieces
+                    </span>
                   </div>
                 </div>
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity grid place-items-center">
-                  <span className="rounded-full bg-primary text-white px-4 py-2">View Collection</span>
+                  <span className="rounded-full bg-primary text-white px-4 py-2">
+                    View Collection
+                  </span>
                 </div>
               </a>
             ))}
@@ -169,10 +203,16 @@ Therefore, his paintings seek to connect with humanity at a deeper, emotional an
         <div className="container mx-auto px-6 py-10 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-lg">Get in touch for commissions and inquiries</p>
           <div className="flex gap-3 items-center">
-            <a href="/contact" className="rounded-full bg-white text-primary px-5 py-2 font-medium">
+            <a
+              href="/contact"
+              className="rounded-full bg-white text-primary px-5 py-2 font-medium"
+            >
               Contact Artist
             </a>
-            <a href="mailto:dherma6969@gmail.com" className="underline underline-offset-4">
+            <a
+              href="mailto:dherma6969@gmail.com"
+              className="underline underline-offset-4"
+            >
               dherma6969@gmail.com
             </a>
           </div>

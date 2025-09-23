@@ -1,5 +1,10 @@
 import * as React from "react";
-import { motion, useMotionTemplate, useScroll, useTransform } from "framer-motion";
+import {
+  motion,
+  useMotionTemplate,
+  useScroll,
+  useTransform,
+} from "framer-motion";
 
 export interface SmoothScrollHeroProps {
   /** Height of the scroll section in pixels @default 1500 */
@@ -15,8 +20,17 @@ export interface SmoothScrollHeroProps {
   className?: string;
 }
 
-interface SmoothScrollHeroBackgroundProps extends Required<Pick<SmoothScrollHeroProps,
-  "scrollHeight" | "desktopImage" | "mobileImage" | "initialClipPercentage" | "finalClipPercentage">> {}
+interface SmoothScrollHeroBackgroundProps
+  extends Required<
+    Pick<
+      SmoothScrollHeroProps,
+      | "scrollHeight"
+      | "desktopImage"
+      | "mobileImage"
+      | "initialClipPercentage"
+      | "finalClipPercentage"
+    >
+  > {}
 
 const SmoothScrollHeroBackground: React.FC<SmoothScrollHeroBackgroundProps> = ({
   scrollHeight,
@@ -27,12 +41,24 @@ const SmoothScrollHeroBackground: React.FC<SmoothScrollHeroBackgroundProps> = ({
 }) => {
   const { scrollY } = useScroll();
 
-  const clipStart = useTransform(scrollY, [0, scrollHeight], [initialClipPercentage, 0]);
-  const clipEnd = useTransform(scrollY, [0, scrollHeight], [finalClipPercentage, 100]);
+  const clipStart = useTransform(
+    scrollY,
+    [0, scrollHeight],
+    [initialClipPercentage, 0],
+  );
+  const clipEnd = useTransform(
+    scrollY,
+    [0, scrollHeight],
+    [finalClipPercentage, 100],
+  );
 
   const clipPath = useMotionTemplate`polygon(${clipStart}% ${clipStart}%, ${clipEnd}% ${clipStart}%, ${clipEnd}% ${clipEnd}%, ${clipStart}% ${clipEnd}%)`;
 
-  const backgroundSize = useTransform(scrollY, [0, scrollHeight + 500], ["170%", "100%"]);
+  const backgroundSize = useTransform(
+    scrollY,
+    [0, scrollHeight + 500],
+    ["170%", "100%"],
+  );
 
   return (
     <motion.div
@@ -63,7 +89,7 @@ const SmoothScrollHeroBackground: React.FC<SmoothScrollHeroBackgroundProps> = ({
           transform: "scale(1.1)",
         }}
       />
-      
+
       {/* Clipped foreground layer */}
       <motion.div
         className="absolute inset-0 z-10"
@@ -102,12 +128,15 @@ const SmoothScrollHero: React.FC<SmoothScrollHeroProps> = ({
   desktopImage,
   mobileImage,
   initialClipPercentage = 1, // Changed from 25 to 10
-  finalClipPercentage = 99,   // Changed from 75 to 90
+  finalClipPercentage = 99, // Changed from 75 to 90
   className,
 }) => {
   const mobile = mobileImage ?? desktopImage;
   return (
-    <div style={{ height: `calc(${scrollHeight}px + 100vh)` }} className={"relative w-full " + (className ?? "") }>
+    <div
+      style={{ height: `calc(${scrollHeight}px + 100vh)` }}
+      className={"relative w-full " + (className ?? "")}
+    >
       <SmoothScrollHeroBackground
         scrollHeight={scrollHeight}
         desktopImage={desktopImage}
