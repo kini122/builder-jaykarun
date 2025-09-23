@@ -19,7 +19,7 @@ export default function Index() {
     const shuffled = [...allWorks].sort(() => Math.random() - 0.5);
     // keep rows filled for 3-column layout
     const pick = shuffled.slice(0, 6);
-    return pick.map<FocusCardItem>((w) => ({ title: w.title, src: w.image, href: "/gallery" }));
+    return pick.map<FocusCardItem>((w) => ({ title: w.title, src: w.image, href: "/gallery#collections" }));
   }, []);
 
   const [bioOpen, setBioOpen] = useState(false);
@@ -93,7 +93,7 @@ export default function Index() {
             <h2 className="text-3xl font-bold">About the Artist</h2>
             <p className="mt-4 text-foreground/80">JAY KARUN</p>
             <p className="mt-2 text-foreground/80">
-              The painterly instinct in Jay showed up early in life. No wonder, after schooling, he didn’t have to think twice about his future calling—to be a painter with a difference.
+              The painterly instinct in Jay showed up early in life. No wonder, after schooling, he didn’t have to think twice about his future calling���to be a painter with a difference.
             </p>
             <Dialog open={bioOpen} onOpenChange={setBioOpen}>
               <DialogTrigger asChild>
