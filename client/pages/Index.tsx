@@ -31,7 +31,7 @@ export default function Index() {
         {illustration?.image && (
           <SmoothScrollHero
             scrollHeight={1900}
-            desktopImage={illustration.image}
+            desktopImage={"https://cdn.builder.io/api/v1/image/assets%2F31e04bb0599342f8b50394d1e8bce657%2F02e02c01aa6d4bf880524344f2bb0c98"}
             mobileImage={illustration.image}
             initialClipPercentage={25}
             finalClipPercentage={75}
