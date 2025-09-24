@@ -142,7 +142,7 @@ function ZoomableImage({ src, alt }: { src: string; alt: string }) {
       <img
         src={src}
         alt={alt}
-        className="select-none pointer-events-none absolute left-1/2 top-1/2 max-h-none"
+        className="select-none pointer-events-none absolute left-1/2 top-1/2 max-w-full max-h-full"
         style={{
           transform: `translate(-50%, -50%) translate(${pos.x}px, ${pos.y}px) scale(${scale})`,
           willChange: "transform",
