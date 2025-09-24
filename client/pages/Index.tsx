@@ -170,9 +170,9 @@ export default function Index() {
           <h3 className="text-2xl font-bold mb-8">Explore by Category</h3>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {categories.map((c, idx) => (
-              <a
+              <Link
                 key={c.key}
-                href={`/gallery?cat=${c.key}`}
+                to={`/gallery?cat=${c.key}`}
                 className={`group relative rounded-2xl overflow-hidden shadow-sm border ${idx % 2 ? "bg-secondary/40" : "bg-white"}`}
               >
                 <img
@@ -193,7 +193,7 @@ export default function Index() {
                     View Collection
                   </span>
                 </div>
-              </a>
+              </Link>
             ))}
           </div>
         </div>
