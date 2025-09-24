@@ -16,7 +16,6 @@
 
 # SPA fallback - route all paths to index.html so client-side routing works
 [[redirects]]
-  force = true
   from = "/*"
   to = "/index.html"
   status = 200
