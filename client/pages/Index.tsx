@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import Layout from "@/components/site/Layout";
 import TiltedCard from "@/components/site/TiltedCard";
 import { categories, allWorks, illustrative } from "@/data/artworks";
@@ -91,7 +92,7 @@ export default function Index() {
       <section id="about" className="bg-secondary/60">
         <div className="container mx-auto px-6 py-14 grid md:grid-cols-2 gap-10 items-center">
           <img
-            src="/assets/portraits/jaykarun.webp"
+            src="https://cdn.builder.io/api/v1/image/assets%2F36014cc458b649769a7ba595a5c2c17d%2Ff0583ba3e967426c965bb83ddf751e63"
             alt="JayKarun portrait"
             className="rounded-2xl shadow-md object-cover w-full h-[380px]"
           />
