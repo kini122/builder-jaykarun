@@ -1,5 +1,6 @@
 import React, { useCallback, useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
+import { Link } from "react-router-dom";
 
 export interface StaggeredMenuItem {
   label: string;
@@ -457,8 +458,8 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
           className="staggered-menu-header absolute top-0 left-0 w-full flex items-center justify-between p-[1.25rem] bg-transparent pointer-events-none z-20"
           aria-label="Main navigation header"
         >
-          <a
-            href="/"
+          <Link
+            to="/"
             className="sm-logo flex items-center select-none pointer-events-auto"
             aria-label="Home"
           >
@@ -470,7 +471,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
               width={120}
               height={24}
             />
-          </a>
+          </Link>
 
           <button
             ref={toggleBtnRef}
@@ -558,16 +559,16 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
                     className="sm-panel-itemWrap relative overflow-hidden leading-none"
                     key={it.label + idx}
                   >
-                    <a
+                    <Link
                       className="sm-panel-item relative text-black font-semibold text-[2rem] sm:text-[2.75rem] md:text-[4rem] cursor-pointer leading-none tracking-[-2px] uppercase transition-[background,color] duration-150 ease-linear inline-block no-underline pr-[1.4em]"
-                      href={it.link}
+                      to={it.link}
                       aria-label={it.ariaLabel}
                       data-index={idx + 1}
                     >
                       <span className="sm-panel-itemLabel inline-block [transform-origin:50%_100%] will-change-transform">
                         {it.label}
                       </span>
-                    </a>
+                    </Link>
                   </li>
                 ))
               ) : (

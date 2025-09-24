@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { cn } from "@/lib/utils";
+import { Link } from "react-router-dom";
 
 export type FocusCardItem = {
   title: string;
@@ -46,9 +47,15 @@ export const Card = React.memo(
       </div>
     );
     return card.href ? (
-      <a href={card.href} aria-label={card.title} className="block">
-        {inner}
-      </a>
+      card.href.startsWith("/") ? (
+        <Link to={card.href} aria-label={card.title} className="block">
+          {inner}
+        </Link>
+      ) : (
+        <a href={card.href} aria-label={card.title} className="block">
+          {inner}
+        </a>
+      )
     ) : (
       inner
     );
