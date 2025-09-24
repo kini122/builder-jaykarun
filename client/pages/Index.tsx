@@ -60,12 +60,12 @@ export default function Index() {
                 bold color with deep cultural roots.
               </p>
               <div className="mt-6 flex gap-3">
-                <a
-                  href="/gallery"
+                <Link
+                  to="/gallery"
                   className="inline-flex items-center rounded-full bg-primary px-5 py-3 text-white font-medium shadow hover:opacity-90"
                 >
                   Explore Gallery
-                </a>
+                </Link>
                 <a
                   href="#about"
                   className="inline-flex items-center rounded-full bg-secondary px-5 py-3 text-foreground font-medium shadow hover:bg-secondary/80"
