@@ -75,7 +75,7 @@ export default function Index() {
             </div>
             <div className="hidden md:flex justify-center">
               <TiltedCard
-                imageSrc="/assets/artworks/nl-paint1.webp"
+                imageSrc="https://cdn.builder.io/api/v1/image/assets%2F31e04bb0599342f8b50394d1e8bce657%2F7b236bb9aa2a47338ce2761897ff554c?format=webp&width=1200"
                 captionText="Featured work"
                 containerHeight="480px"
                 imageHeight="480px"
