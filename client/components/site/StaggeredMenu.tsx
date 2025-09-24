@@ -443,9 +443,10 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
           className="staggered-menu-header absolute top-0 left-0 w-full flex items-center justify-between p-[1.25rem] bg-transparent pointer-events-none z-20"
           aria-label="Main navigation header"
         >
-          <div
+          <a
+            href="/"
             className="sm-logo flex items-center select-none pointer-events-auto"
-            aria-label="Logo"
+            aria-label="Home"
           >
             <img
               src={logoUrl}
@@ -455,7 +456,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
               width={120}
               height={24}
             />
-          </div>
+          </a>
 
           <button
             ref={toggleBtnRef}

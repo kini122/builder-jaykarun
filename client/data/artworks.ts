@@ -21,13 +21,13 @@ export interface ArtworkItem {
 const a = (
   id: string,
   title: string,
-  image: string,
+  _image: string,
   category: CategoryKey,
   description?: string,
 ): ArtworkItem => ({
   id,
   title,
-  image,
+  image: `/assets/artworks/${id}.webp`,
   category,
   description,
 });
