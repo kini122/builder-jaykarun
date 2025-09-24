@@ -154,12 +154,12 @@ export default function Index() {
       <section className="container mx-auto px-6 py-16">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-2xl font-bold">Selected Works</h3>
-          <a
-            href="/gallery"
+          <Link
+            to="/gallery"
             className="text-primary underline-offset-4 hover:underline"
           >
             View all
-          </a>
+          </Link>
         </div>
         <FocusCards cards={randomSelected} />
       </section>
