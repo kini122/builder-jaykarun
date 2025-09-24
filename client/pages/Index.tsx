@@ -11,6 +11,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Link } from "react-router-dom";
 
 export default function Index() {
   const illustration = illustrative.find((i) => i.title === "Illustration");
