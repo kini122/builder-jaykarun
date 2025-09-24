@@ -21,13 +21,13 @@ export interface ArtworkItem {
 const a = (
   id: string,
   title: string,
-  _image: string,
+  imageUrl: string,
   category: CategoryKey,
   description?: string,
 ): ArtworkItem => ({
   id,
   title,
-  image: `/assets/artworks/${id}.webp`,
+  image: imageUrl || `/assets/artworks/${id}.webp`,
   category,
   description,
 });
@@ -51,7 +51,7 @@ export const ecological: ArtworkItem[] = [
   a(
     "eco-waiting-pot",
     "THE WAITING POT",
-    "https://cdn.builder.io/api/v1/image/assets%2F31e04bb0599342f8b50394d1e8bce657%2F5cc23305c4e140488a1819e270a48188?format=webp&width=1200",
+    "https://cdn.builder.io/api/v1/image/assets%2F36014cc458b649769a7ba595a5c2c17d%2F18f5ab9835404627aceec7a8ef4ba992",
     "ecological",
   ),
   a(
