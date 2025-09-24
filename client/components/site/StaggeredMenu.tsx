@@ -511,6 +511,14 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
           style={{ WebkitBackdropFilter: "blur(12px)" }}
           aria-hidden={!open}
         >
+          <button
+            type="button"
+            aria-label="Close menu"
+            onClick={toggleMenu}
+            className="absolute top-3 right-3 inline-flex items-center justify-center h-9 w-9 rounded-md bg-black/5 text-black hover:bg-black/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sm-accent,#7A8B7A)] z-20"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
           <div className="sm-panel-inner flex-1 flex flex-col gap-5">
             <ul
               className="sm-panel-list list-none m-0 p-0 flex flex-col gap-2"
