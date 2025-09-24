@@ -1,73 +1,150 @@
-import { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import Layout from "@/components/site/Layout";
 import TiltedCard from "@/components/site/TiltedCard";
-import ChromaGrid from "@/components/site/ChromaGrid";
-import { categories, allWorks } from "@/data/artworks";
+import { categories, allWorks, illustrative } from "@/data/artworks";
+import SmoothScrollHero from "@/components/ui/smooth-scroll-hero";
+import { FocusCards, type FocusCardItem } from "@/components/ui/focus-cards";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 export default function Index() {
-  const selected = useMemo(() => allWorks.slice(0, 6), []);
+  const illustration = illustrative.find((i) => i.title === "Illustration");
+
+  const randomSelected = useMemo(() => {
+    const shuffled = [...allWorks].sort(() => Math.random() - 0.5);
+    // keep rows filled for 3-column layout
+    const pick = shuffled.slice(0, 6);
+    return pick.map<FocusCardItem>((w) => ({
+      title: w.title,
+      src: w.image,
+      href: "/gallery#collections",
+    }));
+  }, []);
+
+  const [bioOpen, setBioOpen] = useState(false);
 
   return (
     <Layout>
-      {/* HERO */}
-      <section className="container mx-auto px-6 py-16 grid md:grid-cols-2 gap-10 items-center">
-        <div>
-          <p className="uppercase tracking-wide text-xs text-foreground/70">
-            Contemporary expressions rooted in tradition
-          </p>
-          <h1 className="mt-2 text-4xl md:text-5xl font-extrabold tracking-tight text-foreground">
-            Paintings and prints for your home
-          </h1>
-          <p className="mt-4 text-lg text-foreground/80">JayKarun Art</p>
-          <p className="mt-3 text-foreground/80 max-w-prose">
-            Discover evocative works spanning ecological themes, figurative
-            explorations and nature inspired abstracts. Each piece blends bold
-            color with deep cultural roots.
-          </p>
-          <div className="mt-6 flex gap-3">
-            <a
-              href="/gallery"
-              className="inline-flex items-center rounded-full bg-primary px-5 py-3 text-white font-medium shadow hover:opacity-90"
-            >
-              Explore Gallery
-            </a>
-            <a
-              href="/about"
-              className="inline-flex items-center rounded-full bg-secondary px-5 py-3 text-foreground font-medium shadow hover:bg-secondary/80"
-            >
-              About the Artist
-            </a>
-          </div>
-        </div>
-        <div className="flex justify-center">
-          <TiltedCard
-            imageSrc="https://cdn.builder.io/api/v1/image/assets%2F31e04bb0599342f8b50394d1e8bce657%2F7b236bb9aa2a47338ce2761897ff554c?format=webp&width=1200"
-            captionText="Featured work"
-            containerHeight="480px"
-            imageHeight="480px"
-            imageWidth="380px"
-            showMobileWarning={false}
+      {/* HERO with smooth scroll background */}
+      <section className="relative">
+        {illustration?.image && (
+          <SmoothScrollHero
+            scrollHeight={1900}
+            desktopImage={
+              "https://cdn.builder.io/api/v1/image/assets%2F31e04bb0599342f8b50394d1e8bce657%2F02e02c01aa6d4bf880524344f2bb0c98"
+            }
+            mobileImage={illustration.image}
+            initialClipPercentage={25}
+            finalClipPercentage={75}
           />
+        )}
+        <div className="absolute inset-0 grid place-items-center pointer-events-none">
+          <div className="container mx-auto px-6 grid md:grid-cols-2 gap-10 items-center pointer-events-auto">
+            <div className="bg-white/70 backdrop-blur rounded-2xl p-6 shadow border">
+              <p className="uppercase tracking-wide text-xs text-foreground/70">
+                Contemporary expressions rooted in tradition
+              </p>
+              <h1 className="mt-2 text-4xl md:text-5xl font-extrabold tracking-tight text-foreground">
+                Paintings and prints for your home
+              </h1>
+              <p className="mt-4 text-lg text-foreground/80">JayKarun Art</p>
+              <p className="mt-3 text-foreground/80 max-w-prose">
+                Discover evocative works spanning ecological themes, figurative
+                explorations and nature inspired abstracts. Each piece blends
+                bold color with deep cultural roots.
+              </p>
+              <div className="mt-6 flex gap-3">
+                <a
+                  href="/gallery"
+                  className="inline-flex items-center rounded-full bg-primary px-5 py-3 text-white font-medium shadow hover:opacity-90"
+                >
+                  Explore Gallery
+                </a>
+                <a
+                  href="#about"
+                  className="inline-flex items-center rounded-full bg-secondary px-5 py-3 text-foreground font-medium shadow hover:bg-secondary/80"
+                >
+                  About the Artist
+                </a>
+              </div>
+            </div>
+            <div className="hidden md:flex justify-center">
+              <TiltedCard
+                imageSrc="https://cdn.builder.io/api/v1/image/assets%2F31e04bb0599342f8b50394d1e8bce657%2F7b236bb9aa2a47338ce2761897ff554c?format=webp&width=1200"
+                captionText="Featured work"
+                containerHeight="480px"
+                imageHeight="480px"
+                imageWidth="380px"
+                showMobileWarning={false}
+              />
+            </div>
+          </div>
         </div>
       </section>
 
       {/* SMALL ABOUT */}
-      <section className="bg-secondary/60">
+      <section id="about" className="bg-secondary/60">
         <div className="container mx-auto px-6 py-14 grid md:grid-cols-2 gap-10 items-center">
           <img
-            src="https://cdn.builder.io/api/v1/image/assets%2F31e04bb0599342f8b50394d1e8bce657%2Fb9d916ba8172432a8251389427881d23?format=webp&width=1200"
+            src="https://cdn.builder.io/api/v1/image/assets%2F36014cc458b649769a7ba595a5c2c17d%2Ff0583ba3e967426c965bb83ddf751e63"
             alt="JayKarun portrait"
             className="rounded-2xl shadow-md object-cover w-full h-[380px]"
           />
           <div>
             <h2 className="text-3xl font-bold">About the Artist</h2>
-            <p className="mt-4 text-foreground/80 whitespace-pre-line">{`JAY KARUN\n\nThe painterly instinct in Jay showed up early in life... Each of his paintings is an exploration, deep into the psyche of individual and collective consciousness.`}</p>
-            <a
-              href="/about"
-              className="mt-6 inline-block rounded-full bg-primary px-5 py-3 text-white font-medium shadow hover:opacity-90"
-            >
-              Read Full Biography
-            </a>
+            <p className="mt-4 text-foreground/80">JAY KARUN</p>
+            <p className="mt-2 text-foreground/80">
+              The painterly instinct in Jay showed up early in life. No wonder,
+              after schooling, he didn’t have to think twice about his future
+              calling���to be a painter with a difference.
+            </p>
+            <Dialog open={bioOpen} onOpenChange={setBioOpen}>
+              <DialogTrigger asChild>
+                <button className="mt-6 inline-block rounded-full bg-primary px-5 py-3 text-white font-medium shadow hover:opacity-90">
+                  Read Full Biography
+                </button>
+              </DialogTrigger>
+              <DialogContent className="max-w-2xl">
+                <DialogHeader>
+                  <DialogTitle>Biography</DialogTitle>
+                </DialogHeader>
+                <div className="prose max-w-none whitespace-pre-line text-sm md:text-base">
+                  JAY KARUN The painterly instinct in Jay showed up early in
+                  life. No wonder, after schooling, he didn’t have to think
+                  twice about his future calling-to be a painter with a
+                  difference. For Jay Karun, joining Fine Arts College,
+                  Thrippunithura was a logical conclusion of this calling.
+                  Thrippunithura, the land of temples, arts, and royal heritage,
+                  nourished the painter in him well. After graduating in Fine
+                  Arts creditably; he took to painting avidly and with passion.
+                  Be it commercial art or art for its own sake, Jay invests a
+                  rare passion into his work. He realizes that businesses
+                  require a different kind of art, than, let’s say, a painting.
+                  But as an advertising professional, he realizes, that both art
+                  forms have certain basic things in common like specific
+                  objectives and target audiences. Jay’s fascination to delve
+                  deep down into the imagery that revolves around his mind and
+                  his desire to lend expression to it, led him to explore the
+                  world of paintings. What developed was more than an
+                  expression, but an impressionistic ensemble of energetic
+                  colours and bold strokes. Each of his paintings is an
+                  exploration, deep into the psyche of individual and collective
+                  consciousness. Little surprise, some of his paintings is
+                  mystical renditions of complex human predicament. Humanity,
+                  besieged by multiple inner and external pulls, is his
+                  favourite topic. Forming the base of his thought is the
+                  knowledge, which considers everything that shares space as one
+                  single entity. Therefore, his paintings seek to connect with
+                  humanity at a deeper, emotional and psychic level, just as his
+                  advertising does.
+                </div>
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
       </section>
@@ -83,16 +160,7 @@ export default function Index() {
             View all
           </a>
         </div>
-        <ChromaGrid
-          items={selected.map((w) => ({
-            image: w.image,
-            title: w.title,
-            subtitle: w.description || "",
-            url: "/gallery",
-            gradient: "linear-gradient(145deg,#7A8B7A,#2C2C2C)",
-            borderColor: "#7A8B7A",
-          }))}
-        />
+        <FocusCards cards={randomSelected} />
       </section>
 
       {/* CATEGORY SHORTCUTS */}
