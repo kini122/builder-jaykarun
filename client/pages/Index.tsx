@@ -204,12 +204,12 @@ export default function Index() {
         <div className="container mx-auto px-6 py-10 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-lg">Get in touch for commissions and inquiries</p>
           <div className="flex gap-3 items-center">
-            <a
-              href="/contact"
+            <Link
+              to="/contact"
               className="rounded-full bg-white text-primary px-5 py-2 font-medium"
             >
               Contact Artist
-            </a>
+            </Link>
             <a
               href="mailto:dherma6969@gmail.com"
               className="underline underline-offset-4"
