@@ -1,5 +1,6 @@
 import React, { useCallback, useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
+import { Link } from "react-router-dom";
 
 export interface StaggeredMenuItem {
   label: string;
@@ -399,6 +400,13 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
     onMenuClose,
   ]);
 
+  React.useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
   return (
     <div className="sm-scope w-full h-full">
       <div
@@ -439,13 +447,21 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
           })()}
         </div>
 
+        <div
+          className="sm-backdrop fixed inset-0 bg-black/40 z-[15] opacity-0 pointer-events-none transition-opacity duration-300"
+          data-open={open || undefined}
+          onClick={toggleMenu}
+          aria-hidden="true"
+        />
+
         <header
           className="staggered-menu-header absolute top-0 left-0 w-full flex items-center justify-between p-[1.25rem] bg-transparent pointer-events-none z-20"
           aria-label="Main navigation header"
         >
-          <div
+          <Link
+            to="/"
             className="sm-logo flex items-center select-none pointer-events-auto"
-            aria-label="Logo"
+            aria-label="Home"
           >
             <img
               src={logoUrl}
@@ -455,7 +471,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
               width={120}
               height={24}
             />
-          </div>
+          </Link>
 
           <button
             ref={toggleBtnRef}
@@ -510,6 +526,27 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
           style={{ WebkitBackdropFilter: "blur(12px)" }}
           aria-hidden={!open}
         >
+          <button
+            type="button"
+            aria-label="Close menu"
+            onClick={toggleMenu}
+            className="absolute top-3 right-3 inline-flex items-center justify-center h-11 w-11 md:h-9 md:w-9 rounded-md bg-black/5 text-black hover:bg-black/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sm-accent,#7A8B7A)] z-20"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
           <div className="sm-panel-inner flex-1 flex flex-col gap-5">
             <ul
               className="sm-panel-list list-none m-0 p-0 flex flex-col gap-2"
@@ -522,16 +559,16 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
                     className="sm-panel-itemWrap relative overflow-hidden leading-none"
                     key={it.label + idx}
                   >
-                    <a
-                      className="sm-panel-item relative text-black font-semibold text-[3.25rem] md:text-[4rem] cursor-pointer leading-none tracking-[-2px] uppercase transition-[background,color] duration-150 ease-linear inline-block no-underline pr-[1.4em]"
-                      href={it.link}
+                    <Link
+                      className="sm-panel-item relative text-black font-semibold text-[2rem] sm:text-[2.75rem] md:text-[4rem] cursor-pointer leading-none tracking-[-2px] uppercase transition-[background,color] duration-150 ease-linear inline-block no-underline pr-[1.4em]"
+                      to={it.link}
                       aria-label={it.ariaLabel}
                       data-index={idx + 1}
                     >
                       <span className="sm-panel-itemLabel inline-block [transform-origin:50%_100%] will-change-transform">
                         {it.label}
                       </span>
-                    </a>
+                    </Link>
                   </li>
                 ))
               ) : (
@@ -539,7 +576,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
                   className="sm-panel-itemWrap relative overflow-hidden leading-none"
                   aria-hidden="true"
                 >
-                  <span className="sm-panel-item relative text-black font-semibold text-[4rem] cursor-pointer leading-none tracking-[-2px] uppercase transition-[background,color] duration-150 ease-linear inline-block no-underline pr-[1.4em]">
+                  <span className="sm-panel-item relative text-black font-semibold text-[2rem] sm:text-[2.75rem] md:text-[4rem] cursor-pointer leading-none tracking-[-2px] uppercase transition-[background,color] duration-150 ease-linear inline-block no-underline pr-[1.4em]">
                     <span className="sm-panel-itemLabel inline-block [transform-origin:50%_100%] will-change-transform">
                       No items
                     </span>
@@ -597,6 +634,8 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
 .sm-scope .sm-prelayers { position: fixed; top: 0; right: 0; bottom: 0; width: clamp(260px, 42vw, 460px); pointer-events: none; z-index: 25; }
 .sm-scope [data-position='left'] .sm-prelayers { right: auto; left: 0; }
 .sm-scope .sm-prelayer { position: absolute; top: 0; right: 0; height: 100%; width: 100%; transform: translateX(0); }
+.sm-scope .sm-backdrop { opacity: 0; pointer-events: none; }
+.sm-scope .sm-backdrop[data-open] { opacity: 1; pointer-events: auto; }
 .sm-scope .sm-panel-inner { flex: 1; display: flex; flex-direction: column; gap: 1.25rem; }
 .sm-scope .sm-panel-item { position: relative; color: #000; font-weight: 700; font-size: 3.25rem; cursor: pointer; line-height: 1; letter-spacing: -2px; text-transform: uppercase; transition: background 0.25s, color 0.25s; display: inline-block; text-decoration: none; padding-right: 1.4em; }
 .sm-scope .sm-panel-item:hover { color: var(--sm-accent, #7A8B7A); }
