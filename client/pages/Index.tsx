@@ -96,7 +96,10 @@ export default function Index() {
       </section>
 
       {/* SMALL ABOUT */}
-      <section id="about" className="bg-secondary/60 scroll-mt-28 sm:scroll-mt-32">
+      <section
+        id="about"
+        className="bg-secondary/60 scroll-mt-28 sm:scroll-mt-32"
+      >
         <div className="container mx-auto px-6 py-14 grid md:grid-cols-2 gap-10 items-center">
           <img
             src="https://cdn.builder.io/api/v1/image/assets%2F36014cc458b649769a7ba595a5c2c17d%2Ff0583ba3e967426c965bb83ddf751e63"

@@ -27,8 +27,6 @@ export default function Gallery() {
     return cat ?? undefined;
   }, [hash, search]);
 
-
-
   React.useEffect(() => {
     const obs = new IntersectionObserver(
       (entries) => {
@@ -47,7 +45,6 @@ export default function Gallery() {
     return () => obs.disconnect();
   }, []);
 
-
   React.useEffect(() => {
     if (!desiredKey) return;
     let attempts = 0;
@@ -65,7 +62,6 @@ export default function Gallery() {
 
   return (
     <Layout>
-
       <section className="container mx-auto px-6 py-12">
         <h1 className="text-3xl font-bold mb-6">Gallery Collections</h1>
         <div className="space-y-14" id="collections">

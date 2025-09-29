@@ -91,7 +91,13 @@ export const Card = React.memo(
 
 Card.displayName = "Card";
 
-export function FocusCards({ cards, preferLink = false }: { cards: FocusCardItem[]; preferLink?: boolean }) {
+export function FocusCards({
+  cards,
+  preferLink = false,
+}: {
+  cards: FocusCardItem[];
+  preferLink?: boolean;
+}) {
   const [hovered, setHovered] = useState<number | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [active, setActive] = useState<FocusCardItem | null>(null);
