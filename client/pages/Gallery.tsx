@@ -20,7 +20,7 @@ export default function Gallery() {
   const sectionRefs = React.useRef<Record<string, HTMLElement | null>>({});
   const { hash, search } = useLocation();
   const [scrolled, setScrolled] = React.useState(false);
-  const [selectedKey, setSelectedKey] = React.useState<string | undefined>(undefined);
+  const [activeKey, setActiveKey] = React.useState<string | undefined>(categories[0]?.key);
   const pendingRef = React.useRef<string | null>(null);
 
   const desiredKey = React.useMemo(() => {
@@ -31,11 +31,9 @@ export default function Gallery() {
     return cat ?? undefined;
   }, [hash, search]);
 
-  const activeKey = React.useMemo(() => {
-    if (selectedKey) return selectedKey;
-    const firstVisible = categories.find((c) => visible[c.key]);
-    return firstVisible?.key ?? desiredKey ?? categories[0]?.key;
-  }, [visible, desiredKey, selectedKey]);
+  React.useEffect(() => {
+    if (desiredKey) setActiveKey(desiredKey);
+  }, [desiredKey]);
 
   const scrollToSection = (key: string) => {
     const el = sectionRefs.current[key];
@@ -53,14 +51,6 @@ export default function Gallery() {
           if (!id) return;
           if (e.isIntersecting) {
             setVisible((v) => ({ ...v, [id]: true }));
-            if (pendingRef.current) {
-              if (pendingRef.current === id) {
-                setSelectedKey(id);
-                pendingRef.current = null;
-              }
-            } else {
-              setSelectedKey(id);
-            }
           }
         });
       },
@@ -72,8 +62,30 @@ export default function Gallery() {
   }, []);
 
   React.useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    onScroll();
+    let ticking = false;
+    const calc = () => {
+      const headerOffset = 120;
+      const scrollY = window.scrollY;
+      const entries = categories
+        .map((c) => ({ key: c.key, el: sectionRefs.current[c.key] }))
+        .filter((e): e is { key: string; el: HTMLElement } => !!e.el);
+      let current = entries[0]?.key;
+      for (const e of entries) {
+        const top = e.el.getBoundingClientRect().top + scrollY;
+        if (scrollY + headerOffset >= top - 1) current = e.key;
+        else break;
+      }
+      setActiveKey(current);
+      setScrolled(scrollY > 8);
+      ticking = false;
+    };
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(calc);
+      }
+    };
+    calc();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -81,12 +93,11 @@ export default function Gallery() {
   React.useEffect(() => {
     if (!desiredKey) return;
     pendingRef.current = desiredKey;
-    setSelectedKey(desiredKey);
+    setActiveKey(desiredKey);
     let attempts = 0;
     const tryScroll = () => {
       const el = sectionRefs.current[desiredKey];
       if (el && document.body.contains(el)) {
-        // Prefer scrollIntoView with CSS scroll margin
         el.scrollIntoView({ behavior: "smooth", block: "start" });
       } else if (attempts < 20) {
         attempts += 1;
@@ -112,14 +123,13 @@ export default function Gallery() {
                 onClick={(e) => {
                   e.preventDefault();
                   pendingRef.current = cat.key;
-                  setSelectedKey(cat.key);
+                  setActiveKey(cat.key);
                   const el = sectionRefs.current[cat.key];
                   if (el) {
                     el.scrollIntoView({ behavior: "smooth", block: "start" });
                   } else {
                     scrollToSection(cat.key);
                   }
-                  // Update URL hash without full navigation
                   history.replaceState(null, "", `#${cat.key}`);
                 }}
                 className={cn(
