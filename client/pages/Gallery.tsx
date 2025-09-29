@@ -1,7 +1,6 @@
 import Layout from "@/components/site/Layout";
 import { categories } from "@/data/artworks";
 import React from "react";
-import { cn } from "@/lib/utils";
 import { useLocation } from "react-router-dom";
 import {
   Dialog,
@@ -19,9 +18,6 @@ export default function Gallery() {
   const [visible, setVisible] = React.useState<Record<string, boolean>>({});
   const sectionRefs = React.useRef<Record<string, HTMLElement | null>>({});
   const { hash, search } = useLocation();
-  const [scrolled, setScrolled] = React.useState(false);
-  const [activeKey, setActiveKey] = React.useState<string | undefined>(categories[0]?.key);
-  const pendingRef = React.useRef<string | null>(null);
 
   const desiredKey = React.useMemo(() => {
     const fromHash = hash?.replace(/^#/, "");
@@ -31,17 +27,7 @@ export default function Gallery() {
     return cat ?? undefined;
   }, [hash, search]);
 
-  React.useEffect(() => {
-    if (desiredKey) setActiveKey(desiredKey);
-  }, [desiredKey]);
 
-  const scrollToSection = (key: string) => {
-    const el = sectionRefs.current[key];
-    if (!el) return;
-    const headerOffset = 120; // header + sticky chips
-    const top = el.getBoundingClientRect().top + window.scrollY - headerOffset;
-    window.scrollTo({ top, behavior: "smooth" });
-  };
 
   React.useEffect(() => {
     const obs = new IntersectionObserver(
@@ -61,39 +47,9 @@ export default function Gallery() {
     return () => obs.disconnect();
   }, []);
 
-  React.useEffect(() => {
-    let ticking = false;
-    const calc = () => {
-      const headerOffset = 120;
-      const scrollY = window.scrollY;
-      const entries = categories
-        .map((c) => ({ key: c.key, el: sectionRefs.current[c.key] }))
-        .filter((e): e is { key: string; el: HTMLElement } => !!e.el);
-      let current = entries[0]?.key;
-      for (const e of entries) {
-        const top = e.el.getBoundingClientRect().top + scrollY;
-        if (scrollY + headerOffset >= top - 1) current = e.key;
-        else break;
-      }
-      setActiveKey(current);
-      setScrolled(scrollY > 8);
-      ticking = false;
-    };
-    const onScroll = () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(calc);
-      }
-    };
-    calc();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   React.useEffect(() => {
     if (!desiredKey) return;
-    pendingRef.current = desiredKey;
-    setActiveKey(desiredKey);
     let attempts = 0;
     const tryScroll = () => {
       const el = sectionRefs.current[desiredKey];
@@ -109,41 +65,6 @@ export default function Gallery() {
 
   return (
     <Layout>
-      {/* Shortcut nav bar */}
-      <div className={cn(
-        "sticky top-16 z-30 border-b backdrop-blur supports-[backdrop-filter]:bg-[hsl(var(--background))]/65",
-        scrolled ? "bg-[hsl(var(--background))]/90 pt-4 pb-2" : "bg-[hsl(var(--background))]/80 py-2",
-      )}>
-        <div className="container mx-auto px-6 overflow-x-auto">
-          <nav className="flex gap-2">
-            {categories.map((cat) => (
-              <a
-                key={cat.key}
-                href={`#${cat.key}`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  pendingRef.current = cat.key;
-                  setActiveKey(cat.key);
-                  const el = sectionRefs.current[cat.key];
-                  if (el) {
-                    el.scrollIntoView({ behavior: "smooth", block: "start" });
-                  } else {
-                    scrollToSection(cat.key);
-                  }
-                  history.replaceState(null, "", `#${cat.key}`);
-                }}
-                className={cn(
-                  "px-3 py-1.5 rounded-full border whitespace-nowrap bg-background text-foreground hover:bg-accent hover:text-accent-foreground",
-                  activeKey === cat.key && "bg-foreground text-background",
-                )}
-                aria-current={activeKey === cat.key ? "true" : undefined}
-              >
-                {cat.name}
-              </a>
-            ))}
-          </nav>
-        </div>
-      </div>
 
       <section className="container mx-auto px-6 py-12">
         <h1 className="text-3xl font-bold mb-6">Gallery Collections</h1>
