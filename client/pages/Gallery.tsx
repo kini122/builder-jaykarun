@@ -1,6 +1,8 @@
 import Layout from "@/components/site/Layout";
 import { categories } from "@/data/artworks";
 import React from "react";
+import { cn } from "@/lib/utils";
+import { useLocation } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
@@ -16,6 +18,20 @@ export default function Gallery() {
   } | null>(null);
   const [visible, setVisible] = React.useState<Record<string, boolean>>({});
   const sectionRefs = React.useRef<Record<string, HTMLElement | null>>({});
+  const { hash } = useLocation();
+
+  const activeKey = React.useMemo(() => {
+    const firstVisible = categories.find((c) => visible[c.key]);
+    return firstVisible?.key ?? categories[0]?.key;
+  }, [visible]);
+
+  const scrollToSection = (key: string) => {
+    const el = sectionRefs.current[key];
+    if (!el) return;
+    const headerOffset = 96; // approximate sticky header + shortcut height
+    const top = el.getBoundingClientRect().top + window.scrollY - headerOffset;
+    window.scrollTo({ top, behavior: "smooth" });
+  };
 
   React.useEffect(() => {
     const obs = new IntersectionObserver(
@@ -28,24 +44,59 @@ export default function Gallery() {
           }
         });
       },
-      { threshold: 0.15 },
+      { threshold: 0.3 },
     );
     const els = Object.values(sectionRefs.current).filter(Boolean) as Element[];
     els.forEach((el) => obs.observe(el));
     return () => obs.disconnect();
   }, []);
 
+  React.useEffect(() => {
+    if (!hash) return;
+    const key = hash.replace(/^#/, "");
+    if (sectionRefs.current[key]) {
+      // allow refs to paint
+      setTimeout(() => scrollToSection(key), 0);
+    }
+  }, [hash]);
+
   return (
     <Layout>
+      {/* Shortcut nav bar */}
+      <div className="sticky top-14 sm:top-16 z-30 bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60 border-b">
+        <div className="container mx-auto px-6 py-2 overflow-x-auto">
+          <nav className="flex gap-2">
+            {categories.map((cat) => (
+              <a
+                key={cat.key}
+                href={`#${cat.key}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToSection(cat.key);
+                }}
+                className={cn(
+                  "px-3 py-1.5 rounded-full border whitespace-nowrap bg-white text-foreground hover:bg-accent hover:text-accent-foreground",
+                  activeKey === cat.key && "bg-foreground text-background",
+                )}
+                aria-current={activeKey === cat.key ? "true" : undefined}
+              >
+                {cat.name}
+              </a>
+            ))}
+          </nav>
+        </div>
+      </div>
+
       <section className="container mx-auto px-6 py-12">
-        <h1 className="text-3xl font-bold mb-10">Gallery Collections</h1>
+        <h1 className="text-3xl font-bold mb-6">Gallery Collections</h1>
         <div className="space-y-14" id="collections">
           {categories.map((cat) => (
             <section
               key={cat.key}
+              id={cat.key}
               data-key={cat.key}
               ref={(el) => (sectionRefs.current[cat.key] = el)}
-              className={`transition-all duration-700 ${visible[cat.key] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+              className={`scroll-mt-28 sm:scroll-mt-32 transition-all duration-700 ${visible[cat.key] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
             >
               <h2 className="text-xl font-semibold mb-4">{cat.name}</h2>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
