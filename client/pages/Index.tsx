@@ -34,7 +34,7 @@ export default function Index() {
       categories.map((c) => ({
         title: c.name,
         src: c.items[0]?.image,
-        href: `/gallery?cat=${c.key}`,
+        href: `/gallery#${c.key}`,
       })),
     [],
   );
@@ -175,7 +175,7 @@ export default function Index() {
       <section className="bg-white">
         <div className="container mx-auto px-6 py-16">
           <h3 className="text-2xl font-bold mb-8">Explore by Category</h3>
-          <FocusCards cards={exploreCards} />
+          <FocusCards cards={exploreCards} preferLink />
         </div>
       </section>
 
