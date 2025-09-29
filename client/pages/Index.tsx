@@ -43,7 +43,7 @@ export default function Index() {
         )}
         <div className="absolute inset-0 grid place-items-center pointer-events-none">
           <div className="container mx-auto px-6 grid md:grid-cols-2 gap-10 items-center pointer-events-auto">
-            <div className="bg-white/70 backdrop-blur rounded-2xl p-6 shadow border">
+            <div className="bg-white rounded-2xl p-6 shadow border">
               <p className="uppercase tracking-wide text-xs text-foreground/70">
                 Contemporary expressions rooted in tradition
               </p>
