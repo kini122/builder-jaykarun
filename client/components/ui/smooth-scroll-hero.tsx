@@ -19,10 +19,10 @@ const SmoothScrollHero: React.FC<SmoothScrollHeroProps> = ({
   return (
     <div className={"relative w-full bg-white " + (className ?? "")}>
       {/* White hero block - mobile */}
-      <div className="block md:hidden w-full h-[220px] bg-white" aria-hidden />
+      <div className="block md:hidden w-full h-[320px] bg-white" aria-hidden />
 
       {/* White hero block - desktop */}
-      <div className="hidden md:block w-full h-[360px] bg-white" aria-hidden />
+      <div className="hidden md:block w-full h-[520px] bg-white" aria-hidden />
     </div>
   );
 };

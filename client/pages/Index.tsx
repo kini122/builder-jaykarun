@@ -29,6 +29,16 @@ export default function Index() {
 
   const [bioOpen, setBioOpen] = useState(false);
 
+  const exploreCards: FocusCardItem[] = useMemo(
+    () =>
+      categories.map((c) => ({
+        title: c.name,
+        src: c.items[0]?.image,
+        href: `/gallery?cat=${c.key}`,
+      })),
+    [],
+  );
+
   return (
     <Layout>
       {/* HERO with smooth scroll background */}
@@ -103,7 +113,7 @@ export default function Index() {
             </p>
             <Dialog open={bioOpen} onOpenChange={setBioOpen}>
               <DialogTrigger asChild>
-                <button className="mt-6 inline-block rounded-full bg-primary px-5 py-3 text-white font-medium shadow hover:opacity-90">
+                <button className="mt-6 inline-block rounded-full bg-white px-5 py-3 text-[hsl(var(--foreground))] font-medium shadow border hover:bg-white/90">
                   Read Full Biography
                 </button>
               </DialogTrigger>
@@ -165,45 +175,18 @@ export default function Index() {
       <section className="bg-white">
         <div className="container mx-auto px-6 py-16">
           <h3 className="text-2xl font-bold mb-8">Explore by Category</h3>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {categories.map((c, idx) => (
-              <Link
-                key={c.key}
-                to={`/gallery?cat=${c.key}`}
-                className={`group relative rounded-2xl overflow-hidden shadow-sm border ${idx % 2 ? "bg-secondary/40" : "bg-white"}`}
-              >
-                <img
-                  src={c.items[0]?.image}
-                  alt={c.name}
-                  className="h-56 w-full object-cover"
-                />
-                <div className="p-4">
-                  <div className="flex items-center justify-between">
-                    <h4 className="font-semibold">{c.name}</h4>
-                    <span className="text-sm text-foreground/60">
-                      {c.items.length} pieces
-                    </span>
-                  </div>
-                </div>
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity grid place-items-center">
-                  <span className="rounded-full bg-primary text-white px-4 py-2">
-                    View Collection
-                  </span>
-                </div>
-              </Link>
-            ))}
-          </div>
+          <FocusCards cards={exploreCards} />
         </div>
       </section>
 
       {/* CONTACT PREVIEW */}
-      <section className="bg-primary text-white">
+      <section className="bg-foreground text-background">
         <div className="container mx-auto px-6 py-10 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-lg">Get in touch for commissions and inquiries</p>
           <div className="flex gap-3 items-center">
             <Link
               to="/contact"
-              className="rounded-full bg-white text-primary px-5 py-2 font-medium"
+              className="rounded-full bg-background text-foreground px-5 py-2 font-medium"
             >
               Contact Artist
             </Link>
