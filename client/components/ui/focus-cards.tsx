@@ -35,7 +35,7 @@ export const Card = React.memo(
         onMouseEnter={() => setHovered(index)}
         onMouseLeave={() => setHovered(null)}
         className={cn(
-          "rounded-lg relative bg-white overflow-hidden h-52 md:h-72 w-full transition-all duration-200 ease-out border",
+          "group rounded-2xl relative bg-white overflow-hidden h-56 w-full transition-all duration-200 ease-out shadow-sm border",
           hovered !== null && hovered !== index && "blur-sm scale-[0.98]",
         )}
       >
@@ -44,14 +44,11 @@ export const Card = React.memo(
           alt={card.title}
           className="object-cover absolute inset-0 w-full h-full"
         />
-        <div
-          className={cn(
-            "absolute left-0 right-0 bottom-0 bg-white/90 flex items-end py-3 px-3 transition-opacity duration-200",
-            hovered === index ? "opacity-100" : "opacity-90",
-          )}
-        >
-          <div className="text-sm md:text-base font-medium text-[hsl(var(--foreground))]">
-            {card.title}
+        <div className={cn("absolute inset-0 bg-black/0 transition-opacity duration-200 flex items-end") }>
+          <div className="p-4 w-full bg-white/90">
+            <div className="text-sm md:text-base font-medium text-[hsl(var(--foreground))]">
+              {card.title}
+            </div>
           </div>
         </div>
       </div>
@@ -104,6 +101,21 @@ export function FocusCards({ cards }: { cards: FocusCardItem[] }) {
     setActive(null);
   };
 
+  const imgWrapRef = useRef<HTMLDivElement | null>(null);
+  const [zoom, setZoom] = useState(1);
+
+  const changeZoom = (delta: number) => {
+    setZoom((z) => Math.min(4, Math.max(0.5, +(z + delta).toFixed(2))));
+  };
+
+  const onWheel = (e: React.WheelEvent) => {
+    // ctrl+wheel or meta+wheel to zoom, otherwise allow scroll
+    if (e.ctrlKey || e.metaKey) {
+      e.preventDefault();
+      changeZoom(e.deltaY > 0 ? -0.1 : 0.1);
+    }
+  };
+
   return (
     <>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-4 max-w-5xl mx-auto md:px-8 w-full">
@@ -124,10 +136,44 @@ export function FocusCards({ cards }: { cards: FocusCardItem[] }) {
         <DialogContent className="max-w-4xl w-full">
           <DialogHeader>
             <DialogTitle>{active?.title}</DialogTitle>
+            <div className="ml-auto flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => changeZoom(-0.1)}
+                className="px-3 py-1 border rounded bg-white text-[hsl(var(--foreground))]"
+                aria-label="Zoom out"
+              >
+                −
+              </button>
+              <button
+                type="button"
+                onClick={() => setZoom(1)}
+                className="px-3 py-1 border rounded bg-white text-[hsl(var(--foreground))]"
+                aria-label="Reset zoom"
+              >
+                Reset
+              </button>
+              <button
+                type="button"
+                onClick={() => changeZoom(0.1)}
+                className="px-3 py-1 border rounded bg-white text-[hsl(var(--foreground))]"
+                aria-label="Zoom in"
+              >
+                +
+              </button>
+            </div>
           </DialogHeader>
           {active && (
             <div className="mt-2">
-              <img src={active.src} alt={active.title} className="w-full h-auto object-contain" />
+              <div
+                ref={imgWrapRef}
+                onWheel={onWheel}
+                className="w-full h-[70vh] overflow-auto bg-white flex items-center justify-center"
+              >
+                <div style={{ transform: `scale(${zoom})`, transition: "transform 150ms ease" }}>
+                  <img src={active.src} alt={active.title} className="max-w-full max-h-[70vh] object-contain block" />
+                </div>
+              </div>
             </div>
           )}
         </DialogContent>
