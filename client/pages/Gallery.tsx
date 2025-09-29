@@ -18,17 +18,26 @@ export default function Gallery() {
   } | null>(null);
   const [visible, setVisible] = React.useState<Record<string, boolean>>({});
   const sectionRefs = React.useRef<Record<string, HTMLElement | null>>({});
-  const { hash } = useLocation();
+  const { hash, search } = useLocation();
+  const [scrolled, setScrolled] = React.useState(false);
+
+  const desiredKey = React.useMemo(() => {
+    const fromHash = hash?.replace(/^#/, "");
+    if (fromHash) return fromHash;
+    const p = new URLSearchParams(search);
+    const cat = p.get("cat");
+    return cat ?? undefined;
+  }, [hash, search]);
 
   const activeKey = React.useMemo(() => {
     const firstVisible = categories.find((c) => visible[c.key]);
-    return firstVisible?.key ?? categories[0]?.key;
-  }, [visible]);
+    return firstVisible?.key ?? desiredKey ?? categories[0]?.key;
+  }, [visible, desiredKey]);
 
   const scrollToSection = (key: string) => {
     const el = sectionRefs.current[key];
     if (!el) return;
-    const headerOffset = 96; // approximate sticky header + shortcut height
+    const headerOffset = 120; // header + sticky chips
     const top = el.getBoundingClientRect().top + window.scrollY - headerOffset;
     window.scrollTo({ top, behavior: "smooth" });
   };
@@ -52,19 +61,35 @@ export default function Gallery() {
   }, []);
 
   React.useEffect(() => {
-    if (!hash) return;
-    const key = hash.replace(/^#/, "");
-    if (sectionRefs.current[key]) {
-      // allow refs to paint
-      setTimeout(() => scrollToSection(key), 0);
-    }
-  }, [hash]);
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  React.useEffect(() => {
+    if (!desiredKey) return;
+    let attempts = 0;
+    const tryScroll = () => {
+      const el = sectionRefs.current[desiredKey];
+      if (el && document.body.contains(el)) {
+        scrollToSection(desiredKey);
+      } else if (attempts < 12) {
+        attempts += 1;
+        setTimeout(tryScroll, 50);
+      }
+    };
+    tryScroll();
+  }, [desiredKey]);
 
   return (
     <Layout>
       {/* Shortcut nav bar */}
-      <div className="sticky top-16 z-10 bg-[hsl(var(--background))]/85 backdrop-blur supports-[backdrop-filter]:bg-[hsl(var(--background))]/65 border-b">
-        <div className="container mx-auto px-6 py-2 overflow-x-auto">
+      <div className={cn(
+        "sticky top-16 z-30 border-b backdrop-blur supports-[backdrop-filter]:bg-[hsl(var(--background))]/65",
+        scrolled ? "bg-[hsl(var(--background))]/90 pt-4 pb-2" : "bg-[hsl(var(--background))]/80 py-2",
+      )}>
+        <div className="container mx-auto px-6 overflow-x-auto">
           <nav className="flex gap-2">
             {categories.map((cat) => (
               <a
