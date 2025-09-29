@@ -59,13 +59,13 @@ export default function Index() {
               <div className="mt-6 flex gap-3">
                 <Link
                   to="/gallery"
-                  className="inline-flex items-center rounded-full bg-primary px-5 py-3 text-white font-medium shadow hover:opacity-90"
+                  className="inline-flex items-center rounded-full bg-white border px-5 py-3 text-[hsl(var(--foreground))] font-medium shadow-sm hover:opacity-95"
                 >
                   Explore Gallery
                 </Link>
                 <a
                   href="#about"
-                  className="inline-flex items-center rounded-full bg-secondary px-5 py-3 text-foreground font-medium shadow hover:bg-secondary/80"
+                  className="inline-flex items-center rounded-full bg-white border px-5 py-3 text-[hsl(var(--foreground))] font-medium shadow-sm hover:opacity-95"
                 >
                   About the Artist
                 </a>
