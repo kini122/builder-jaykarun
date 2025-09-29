@@ -20,6 +20,8 @@ export default function Gallery() {
   const sectionRefs = React.useRef<Record<string, HTMLElement | null>>({});
   const { hash, search } = useLocation();
   const [scrolled, setScrolled] = React.useState(false);
+  const [selectedKey, setSelectedKey] = React.useState<string | undefined>(undefined);
+  const pendingRef = React.useRef<string | null>(null);
 
   const desiredKey = React.useMemo(() => {
     const fromHash = hash?.replace(/^#/, "");
@@ -30,9 +32,10 @@ export default function Gallery() {
   }, [hash, search]);
 
   const activeKey = React.useMemo(() => {
+    if (selectedKey) return selectedKey;
     const firstVisible = categories.find((c) => visible[c.key]);
     return firstVisible?.key ?? desiredKey ?? categories[0]?.key;
-  }, [visible, desiredKey]);
+  }, [visible, desiredKey, selectedKey]);
 
   const scrollToSection = (key: string) => {
     const el = sectionRefs.current[key];
@@ -50,10 +53,18 @@ export default function Gallery() {
           if (!id) return;
           if (e.isIntersecting) {
             setVisible((v) => ({ ...v, [id]: true }));
+            if (pendingRef.current) {
+              if (pendingRef.current === id) {
+                setSelectedKey(id);
+                pendingRef.current = null;
+              }
+            } else {
+              setSelectedKey(id);
+            }
           }
         });
       },
-      { threshold: 0.3 },
+      { threshold: 0.4 },
     );
     const els = Object.values(sectionRefs.current).filter(Boolean) as Element[];
     els.forEach((el) => obs.observe(el));
@@ -69,12 +80,15 @@ export default function Gallery() {
 
   React.useEffect(() => {
     if (!desiredKey) return;
+    pendingRef.current = desiredKey;
+    setSelectedKey(desiredKey);
     let attempts = 0;
     const tryScroll = () => {
       const el = sectionRefs.current[desiredKey];
       if (el && document.body.contains(el)) {
-        scrollToSection(desiredKey);
-      } else if (attempts < 12) {
+        // Prefer scrollIntoView with CSS scroll margin
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else if (attempts < 20) {
         attempts += 1;
         setTimeout(tryScroll, 50);
       }
@@ -97,7 +111,16 @@ export default function Gallery() {
                 href={`#${cat.key}`}
                 onClick={(e) => {
                   e.preventDefault();
-                  scrollToSection(cat.key);
+                  pendingRef.current = cat.key;
+                  setSelectedKey(cat.key);
+                  const el = sectionRefs.current[cat.key];
+                  if (el) {
+                    el.scrollIntoView({ behavior: "smooth", block: "start" });
+                  } else {
+                    scrollToSection(cat.key);
+                  }
+                  // Update URL hash without full navigation
+                  history.replaceState(null, "", `#${cat.key}`);
                 }}
                 className={cn(
                   "px-3 py-1.5 rounded-full border whitespace-nowrap bg-background text-foreground hover:bg-accent hover:text-accent-foreground",
