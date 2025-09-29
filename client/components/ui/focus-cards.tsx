@@ -22,12 +22,14 @@ export const Card = React.memo(
     hovered,
     setHovered,
     onOpen,
+    preferLink,
   }: {
     card: FocusCardItem;
     index: number;
     hovered: number | null;
     setHovered: React.Dispatch<React.SetStateAction<number | null>>;
     onOpen?: (c: FocusCardItem) => void;
+    preferLink?: boolean;
   }) => {
     const inner = (
       <div
@@ -58,7 +60,7 @@ export const Card = React.memo(
     );
 
     // If href points to gallery (internal), open modal instead of navigate
-    if (card.href && card.href.startsWith("/gallery")) {
+    if (!preferLink && card.href && card.href.startsWith("/gallery")) {
       return (
         <button
           type="button"
@@ -89,7 +91,7 @@ export const Card = React.memo(
 
 Card.displayName = "Card";
 
-export function FocusCards({ cards }: { cards: FocusCardItem[] }) {
+export function FocusCards({ cards, preferLink = false }: { cards: FocusCardItem[]; preferLink?: boolean }) {
   const [hovered, setHovered] = useState<number | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [active, setActive] = useState<FocusCardItem | null>(null);
@@ -130,6 +132,7 @@ export function FocusCards({ cards }: { cards: FocusCardItem[] }) {
             hovered={hovered}
             setHovered={setHovered}
             onOpen={openModal}
+            preferLink={preferLink}
           />
         ))}
       </div>
