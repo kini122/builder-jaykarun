@@ -63,7 +63,7 @@ export default function Gallery() {
   return (
     <Layout>
       {/* Shortcut nav bar */}
-      <div className="sticky top-14 sm:top-16 z-30 bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60 border-b">
+      <div className="sticky top-16 z-10 bg-[hsl(var(--background))]/85 backdrop-blur supports-[backdrop-filter]:bg-[hsl(var(--background))]/65 border-b">
         <div className="container mx-auto px-6 py-2 overflow-x-auto">
           <nav className="flex gap-2">
             {categories.map((cat) => (
@@ -75,7 +75,7 @@ export default function Gallery() {
                   scrollToSection(cat.key);
                 }}
                 className={cn(
-                  "px-3 py-1.5 rounded-full border whitespace-nowrap bg-white text-foreground hover:bg-accent hover:text-accent-foreground",
+                  "px-3 py-1.5 rounded-full border whitespace-nowrap bg-background text-foreground hover:bg-accent hover:text-accent-foreground",
                   activeKey === cat.key && "bg-foreground text-background",
                 )}
                 aria-current={activeKey === cat.key ? "true" : undefined}
