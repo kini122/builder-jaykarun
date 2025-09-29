@@ -111,23 +111,50 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-family:
+      Inter,
+      system-ui,
+      -apple-system,
+      "Segoe UI",
+      Roboto,
+      "Helvetica Neue",
+      Arial,
+      "Noto Sans",
+      "Apple Color Emoji",
+      "Segoe UI Emoji",
+      "Segoe UI Symbol";
     line-height: 1.45;
   }
 
   /* Use a classic serif for headings to match the provided image */
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: "Playfair Display", Georgia, "Times New Roman", serif;
     font-weight: 600;
   }
 
   /* Slightly reduce common heading sizes for more compact look */
-  h1 { font-size: 2.25rem; }
-  h2 { font-size: 1.375rem; }
-  h3 { font-size: 1.125rem; }
+  h1 {
+    font-size: 2.25rem;
+  }
+  h2 {
+    font-size: 1.375rem;
+  }
+  h3 {
+    font-size: 1.125rem;
+  }
 
   /* Reduce default spacing for a slightly tighter layout */
-  p { margin-bottom: 0.75rem; }
+  p {
+    margin-bottom: 0.75rem;
+  }
 
-  img { max-width: 100%; height: auto; }
+  img {
+    max-width: 100%;
+    height: auto;
+  }
 }

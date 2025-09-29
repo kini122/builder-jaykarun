@@ -44,7 +44,11 @@ export const Card = React.memo(
           alt={card.title}
           className="object-cover absolute inset-0 w-full h-full"
         />
-        <div className={cn("absolute inset-0 bg-black/0 transition-opacity duration-200 flex items-end") }>
+        <div
+          className={cn(
+            "absolute inset-0 bg-black/0 transition-opacity duration-200 flex items-end",
+          )}
+        >
           <div className="p-4 w-full bg-white/90">
             <div className="text-sm md:text-base font-medium text-[hsl(var(--foreground))]">
               {card.title}
@@ -170,8 +174,17 @@ export function FocusCards({ cards }: { cards: FocusCardItem[] }) {
                 onWheel={onWheel}
                 className="w-full h-[70vh] overflow-auto bg-white flex items-center justify-center"
               >
-                <div style={{ transform: `scale(${zoom})`, transition: "transform 150ms ease" }}>
-                  <img src={active.src} alt={active.title} className="max-w-full max-h-[70vh] object-contain block" />
+                <div
+                  style={{
+                    transform: `scale(${zoom})`,
+                    transition: "transform 150ms ease",
+                  }}
+                >
+                  <img
+                    src={active.src}
+                    alt={active.title}
+                    className="max-w-full max-h-[70vh] object-contain block"
+                  />
                 </div>
               </div>
             </div>
