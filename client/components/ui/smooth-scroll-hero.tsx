@@ -17,20 +17,12 @@ const SmoothScrollHero: React.FC<SmoothScrollHeroProps> = ({
 }) => {
   const mobile = mobileImage ?? desktopImage;
   return (
-    <div className={"relative w-full " + (className ?? "")}>
-      {/* Mobile image */}
-      <div
-        className="block md:hidden w-full h-[380px] bg-center bg-cover"
-        style={{ backgroundImage: `url(${mobile})` }}
-        aria-hidden
-      />
+    <div className={"relative w-full bg-white " + (className ?? "")}>
+      {/* White hero block - mobile */}
+      <div className="block md:hidden w-full h-[220px] bg-white" aria-hidden />
 
-      {/* Desktop image */}
-      <div
-        className="hidden md:block w-full h-[620px] bg-center bg-cover"
-        style={{ backgroundImage: `url(${desktopImage})` }}
-        aria-hidden
-      />
+      {/* White hero block - desktop */}
+      <div className="hidden md:block w-full h-[360px] bg-white" aria-hidden />
     </div>
   );
 };
